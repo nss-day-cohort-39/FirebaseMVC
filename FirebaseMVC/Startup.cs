@@ -1,4 +1,5 @@
 using FirebaseMVC.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,8 +21,8 @@ namespace FirebaseMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddTransient<IFirebaseAuthService, FirebaseAuthService>();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

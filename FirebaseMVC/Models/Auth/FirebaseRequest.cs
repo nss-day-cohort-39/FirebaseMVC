@@ -1,8 +1,8 @@
 ﻿namespace FirebaseMVC.Models.Auth
 {
-    public class FirebaseSignInRequest
+    public class FirebaseRequest
     {
-        public FirebaseSignInRequest(string email, string password)
+        public FirebaseRequest(string email, string password)
         {
             Email = email;
             Password = password;

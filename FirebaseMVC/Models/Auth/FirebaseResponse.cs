@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FirebaseMVC.Models.Auth
+﻿namespace FirebaseMVC.Models.Auth
 {
-    public class FirebaseSignInResponse
+    public class FirebaseResponse
     {
         // A Firebase Auth ID token for the authenticated user.
         public string idToken { get; set; }
@@ -21,8 +16,5 @@ namespace FirebaseMVC.Models.Auth
 
         // The uid of the authenticated user.
         public string LocalId { get; set; }
-
-        // Whether the email is for an existing account.
-        public bool Registered { get; set; }
     }
 }

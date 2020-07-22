@@ -11,6 +11,8 @@ namespace FirebaseMVC.Services
     {
         private const string FIREBASE_SIGN_IN_BASE_URL =
             "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
+        private const string FIREBASE_SIGN_UP_BASE_URL =
+            "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
 
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly string _firebaseApiKey;
@@ -30,13 +32,12 @@ namespace FirebaseMVC.Services
         //  https://firebase.google.com/docs/reference/rest/auth/#section-sign-in-email-password
         public async Task<FirebaseUser> Login(Credentials credentials)
         {
-            var firebaseSignInRequest = 
-                new FirebaseSignInRequest(credentials.Email, credentials.Password);
+            var firebaseRequest = new FirebaseRequest(credentials.Email, credentials.Password);
 
             var url = FIREBASE_SIGN_IN_BASE_URL + _firebaseApiKey;
             var request = new HttpRequestMessage(HttpMethod.Post, url);
             request.Content = new StringContent(
-                JsonSerializer.Serialize(firebaseSignInRequest, _jsonSerializerOptions), 
+                JsonSerializer.Serialize(firebaseRequest, _jsonSerializerOptions), 
                 Encoding.UTF8,
                 "application/json");
 
@@ -44,10 +45,31 @@ namespace FirebaseMVC.Services
             var response = await client.SendAsync(request);
 
             var content = await response.Content.ReadAsStringAsync();
-            var firebaseSignInResponse = 
-                JsonSerializer.Deserialize<FirebaseSignInResponse>(content, _jsonSerializerOptions);
+            var firebaseResponse = 
+                JsonSerializer.Deserialize<FirebaseResponse>(content, _jsonSerializerOptions);
 
-            return new FirebaseUser(firebaseSignInResponse.Email, firebaseSignInResponse.LocalId);
+            return new FirebaseUser(firebaseResponse.Email, firebaseResponse.LocalId);
+        }
+
+        public async Task<FirebaseUser> Register(Registration registration)
+        {
+            var firebaseRequest = new FirebaseRequest(registration.Email, registration.Password);
+
+            var url = FIREBASE_SIGN_UP_BASE_URL + _firebaseApiKey;
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            request.Content = new StringContent(
+                JsonSerializer.Serialize(firebaseRequest, _jsonSerializerOptions), 
+                Encoding.UTF8,
+                "application/json");
+
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+
+            var content = await response.Content.ReadAsStringAsync();
+            var firebaseResponse = 
+                JsonSerializer.Deserialize<FirebaseResponse>(content, _jsonSerializerOptions);
+
+            return new FirebaseUser(firebaseResponse.Email, firebaseResponse.LocalId);
         }
     }
 }
