@@ -1,7 +1,10 @@
 ﻿using FirebaseMVC.Models.Auth;
 using FirebaseMVC.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.TagHelpers;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FirebaseMVC.Controllers
@@ -29,7 +32,9 @@ namespace FirebaseMVC.Controllers
             }
 
             var fbUser = await _firebaseAuthService.Login(credentials);
-            return Content(fbUser.FirebaseUserId);
+            await LoginToApp(fbUser);
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Register()
@@ -46,7 +51,25 @@ namespace FirebaseMVC.Controllers
             }
 
             var fbUser = await _firebaseAuthService.Register(registration);
-            return Content(fbUser.FirebaseUserId);
+            await LoginToApp(fbUser);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        private async Task LoginToApp(FirebaseUser fbUser)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, fbUser.FirebaseUserId),
+                new Claim(ClaimTypes.Email, fbUser.Email),
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
         }
     }
 }
