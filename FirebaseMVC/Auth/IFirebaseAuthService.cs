@@ -1,7 +1,7 @@
-﻿using FirebaseMVC.Models.Auth;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using FirebaseMVC.Auth.Models;
 
-namespace FirebaseMVC.Services
+namespace FirebaseMVC.Auth
 {
     public interface IFirebaseAuthService
     {

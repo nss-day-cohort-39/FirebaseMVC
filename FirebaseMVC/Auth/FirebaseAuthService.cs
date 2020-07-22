@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text;
 using Microsoft.Extensions.Configuration;
-using FirebaseMVC.Models.Auth;
+using FirebaseMVC.Auth.Models;
 
-namespace FirebaseMVC.Services
+namespace FirebaseMVC.Auth
 {
     public class FirebaseAuthService : IFirebaseAuthService
     {

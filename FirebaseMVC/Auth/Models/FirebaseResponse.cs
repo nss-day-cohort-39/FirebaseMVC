@@ -1,4 +1,4 @@
-﻿namespace FirebaseMVC.Models.Auth
+﻿namespace FirebaseMVC.Auth.Models
 {
     public class FirebaseResponse
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FirebaseMVC.Models.Auth
+namespace FirebaseMVC.Auth.Models
 {
     public class Credentials
     {

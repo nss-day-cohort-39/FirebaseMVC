@@ -1,13 +1,12 @@
-﻿using FirebaseMVC.Models.Auth;
-using FirebaseMVC.Services;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using FirebaseMVC.Auth.Models;
 
-namespace FirebaseMVC.Controllers
+namespace FirebaseMVC.Auth
 {
     public class AccountController : Controller
     {
