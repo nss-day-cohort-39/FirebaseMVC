@@ -1,24 +1,28 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using FirebaseMVC.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using FirebaseMVC.Repositories;
+using FirebaseMVC.Data;
 
 namespace FirebaseMVC.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly UserProfileRepository _userProfileRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context)
         {
-            _logger = logger;
+            _userProfileRepository = new UserProfileRepository(context);
         }
 
         public IActionResult Index()
         {
-            return View();
+            var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userProfile = _userProfileRepository.GetById(userProfileId);
+            return View(userProfile);
         }
 
         public IActionResult Privacy()

@@ -48,7 +48,9 @@ namespace FirebaseMVC.Auth
             var firebaseResponse = 
                 JsonSerializer.Deserialize<FirebaseResponse>(content, _jsonSerializerOptions);
 
-            return new FirebaseUser(firebaseResponse.Email, firebaseResponse.LocalId);
+            return firebaseResponse.LocalId != null
+                ? new FirebaseUser(firebaseResponse.Email, firebaseResponse.LocalId)
+                : null;
         }
 
         public async Task<FirebaseUser> Register(Registration registration)
@@ -69,7 +71,9 @@ namespace FirebaseMVC.Auth
             var firebaseResponse = 
                 JsonSerializer.Deserialize<FirebaseResponse>(content, _jsonSerializerOptions);
 
-            return new FirebaseUser(firebaseResponse.Email, firebaseResponse.LocalId);
+            return firebaseResponse.LocalId != null
+                ? new FirebaseUser(firebaseResponse.Email, firebaseResponse.LocalId)
+                : null;
         }
     }
 }
