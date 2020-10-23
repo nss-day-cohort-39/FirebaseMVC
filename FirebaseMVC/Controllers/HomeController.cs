@@ -4,18 +4,17 @@ using FirebaseMVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using FirebaseMVC.Repositories;
-using FirebaseMVC.Data;
 
 namespace FirebaseMVC.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly UserProfileRepository _userProfileRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(IUserProfileRepository userProfileRepository)
         {
-            _userProfileRepository = new UserProfileRepository(context);
+            _userProfileRepository = userProfileRepository;
         }
 
         public IActionResult Index()
