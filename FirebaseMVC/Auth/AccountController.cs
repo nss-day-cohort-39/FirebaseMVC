@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FirebaseMVC.Auth.Models;
-using FirebaseMVC.Data;
 using FirebaseMVC.Repositories;
 using FirebaseMVC.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 
 namespace FirebaseMVC.Auth
@@ -16,11 +14,11 @@ namespace FirebaseMVC.Auth
     public class AccountController : Controller
     {
         private readonly IFirebaseAuthService _firebaseAuthService;
-        private readonly UserProfileRepository _userProfileRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
-        public AccountController(ApplicationDbContext context, IFirebaseAuthService firebaseAuthService, IConfiguration configuration)
+        public AccountController(IFirebaseAuthService firebaseAuthService, IUserProfileRepository userProfileRepository)
         {
-            _userProfileRepository = new UserProfileRepository(configuration, context);
+            _userProfileRepository = userProfileRepository;
             _firebaseAuthService = firebaseAuthService;
         }
 

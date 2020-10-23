@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using FirebaseMVC.Data;
 using FirebaseMVC.Models;
 using System;
 using System.Collections.Generic;
@@ -14,10 +13,9 @@ namespace FirebaseMVC.Repositories
 
         private readonly IConfiguration _config;
 
-        public UserProfileRepository(IConfiguration config, ApplicationDbContext context)
+        public UserProfileRepository(IConfiguration config)
         {
             _config = config;
-            _context = context;
         }
 
         public SqlConnection Connection
@@ -27,8 +25,6 @@ namespace FirebaseMVC.Repositories
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-
-        private readonly ApplicationDbContext _context;
 
         public UserProfile GetById(int id)
         {
@@ -42,7 +38,7 @@ namespace FirebaseMVC.Repositories
                                     FROM UserProfile
                                     WHERE Id = @Id";
 
-                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     UserProfile userProfile = null;
 
@@ -75,7 +71,7 @@ namespace FirebaseMVC.Repositories
                                     FROM UserProfile
                                     WHERE FirebaseUserId = @FirebaseuserId";
 
-                    cmd.Parameters.Add(new SqlParameter("@FirebaseUserId", firebaseUserId));
+                    cmd.Parameters.AddWithValue("@FirebaseUserId", firebaseUserId);
 
                     UserProfile userProfile = null;
 

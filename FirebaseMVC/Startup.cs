@@ -6,8 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FirebaseMVC.Auth;
-using FirebaseMVC.Data;
-using Microsoft.EntityFrameworkCore;
 using FirebaseMVC.Repositories;
 
 namespace FirebaseMVC
@@ -28,8 +26,6 @@ namespace FirebaseMVC
             services.AddTransient<IFirebaseAuthService, FirebaseAuthService>();
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => options.Cookie.SameSite = SameSiteMode.Strict);

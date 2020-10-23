@@ -4,7 +4,6 @@ using FirebaseMVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using FirebaseMVC.Repositories;
-using FirebaseMVC.Data;
 
 namespace FirebaseMVC.Controllers
 {
