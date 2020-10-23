@@ -32,7 +32,35 @@ namespace FirebaseMVC.Repositories
 
         public UserProfile GetById(int id)
         {
-            return _context.UserProfile.FirstOrDefault(up => up.Id == id);
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                    SELECT Id, Email, FirebaseUserId
+                                    FROM UserProfile
+                                    WHERE Id = @Id";
+
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    UserProfile userProfile = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        userProfile = new UserProfile
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Email = reader.GetString(reader.GetOrdinal("Email")),
+                            FirebaseUserId = reader.GetString(reader.GetOrdinal("FirebaseUserId")),
+                        };
+                    }
+                    reader.Close();
+
+                    return userProfile;
+                }
+            }
         }
 
         public UserProfile GetByFirebaseUserId(string firebaseUserId)
