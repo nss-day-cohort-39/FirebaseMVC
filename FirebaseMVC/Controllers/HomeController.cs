@@ -17,22 +17,6 @@ namespace FirebaseMVC.Controllers
             _userProfileRepository = userProfileRepository;
         }
 
-        [HttpGet("{firebaseUserId}")]
-        public IActionResult GetUserProfile(string firebaseUserId)
-        {
-            return Ok(_userProfileRepository.GetByFirebaseUserId(firebaseUserId));
-        }
-
-        [HttpPost]
-        public IActionResult Post(UserProfile userProfile)
-        {
-            _userProfileRepository.Add(userProfile);
-            return CreatedAtAction(
-                nameof(GetUserProfile),
-                new { firebaseUserId = userProfile.FirebaseUserId }, userProfile);
-        }
-
-
         public IActionResult Index()
         {
             var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
