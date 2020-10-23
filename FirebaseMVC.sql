@@ -17,3 +17,5 @@ CREATE TABLE [UserProfile] (
 
 	CONSTRAINT [UQ_FirebaseUserId] UNIQUE([FirebaseUserId])
 )
+
+INSERT INTO UserProfile (Email, FirebaseUserId) VALUES ('admina@straytor.com', '6UQv0Fg2IVWQHBOBdYyP3ow7MdA2');

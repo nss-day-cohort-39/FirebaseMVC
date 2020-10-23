@@ -11,12 +11,28 @@ namespace FirebaseMVC.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly UserProfileRepository _userProfileRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(IUserProfileRepository userProfileRepository)
         {
-            _userProfileRepository = new UserProfileRepository(context);
+            _userProfileRepository = userProfileRepository;
         }
+
+        [HttpGet("{firebaseUserId}")]
+        public IActionResult GetUserProfile(string firebaseUserId)
+        {
+            return Ok(_userProfileRepository.GetByFirebaseUserId(firebaseUserId));
+        }
+
+        [HttpPost]
+        public IActionResult Post(UserProfile userProfile)
+        {
+            _userProfileRepository.Add(userProfile);
+            return CreatedAtAction(
+                nameof(GetUserProfile),
+                new { firebaseUserId = userProfile.FirebaseUserId }, userProfile);
+        }
+
 
         public IActionResult Index()
         {
